@@ -1,8 +1,8 @@
 {
   "name": "task-manager--api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Task manager API",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/JordanLarcher/task-manager--api.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jordan Erick Larcher",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
@@ -22,11 +22,15 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
     "express-validator": "^7.2.1",
     "helmet": "^8.1.0",
-    "jslint": "^0.12.1",
-    "mongoose": "^8.15.0",
+    "mongo": "^0.1.0",
+    "mongodb": "^6.16.0",
+    "mongoose": "^8.14.2",
+    "morgan": "^1.10.0",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.17.0"
   }
 }
