@@ -10,4 +10,8 @@ const connectDB = async () =>  {
         winston.error(`Failed to connect to database: ${err.message}`);
         throw err;
     }
+
+
 }
+
+module.exports = connectDB;
