@@ -1,19 +1,17 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocs = require('./docs/swagger');
-const winston = require('./util/logger');
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const morgan = require("morgan");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocs = require("./docs/swagger");
+const winston = require("./util/logger");
 
-const connectDB = require('./config/database');
-const errorHandler = require('./middleware/errorHandler');
-const mainRoutes = require('./routes/index');
+const connectDB = require("./config/database");
+const errorHandler = require("./middleware/errorHandler");
+const mainRoutes = require("./routes/index");
 const app = express();
-
-
 
 // Middlewares
 
@@ -27,29 +25,32 @@ app.use(cors());
 app.use(express.json());
 
 // HTTP request logger using winston stream.
-app.use(morgan('combined', { stream: winston.stream}))
+app.use(morgan("combined", { stream: winston.stream }));
 
 // Limits repeated requests to public APIs and/or endpoints.
-app.use(rateLimit({
+app.use(
+  rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 100
-}));
+    max: 100,
+  })
+);
 
 // Swagger docs served at /api-docs
-app.use('/api-docs', swaggerUi.serve)
-app.use('/api-docs', swaggerUi.setup(swaggerDocs));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(express.urlencoded());
-app.use('/api', mainRoutes);
+app.use("/api", mainRoutes);
 
 app.use(errorHandler);
 // Connect to MongoDB
 (async function startServer() {
-    try {
-        await connectDB();
-        const PORT = process.env.PORT || 8080;
-        app.listen(PORT, () => winston.info(`Server running at http://localhost:${PORT}`));
-    } catch (error) {
-        winston.error(`Failed to start server: ${error.message}`);
-        process.exit(1);
-    }
+  try {
+    await connectDB();
+    const PORT = process.env.PORT || 8080;
+    app.listen(PORT, () =>
+      winston.info(`Server running at http://localhost:${PORT}`)
+    );
+  } catch (error) {
+    winston.error(`Failed to start server: ${error.message}`);
+    process.exit(1);
+  }
 })();
