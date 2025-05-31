@@ -11,7 +11,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: 'http://localhost:3000',
+                url: 'https://task-manager-api-o5w6.onrender.com',
             },
         ],
     },

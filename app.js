@@ -12,7 +12,22 @@ const connectDB = require("./config/database");
 const errorHandler = require("./middleware/errorHandler");
 const mainRoutes = require("./routes/index");
 const app = express();
+const session = require("express-session");
+const passport = require('passport');
+require("./config/passport"); // Passport configuration
 
+app.use(session( { secret: 'your-session-secret', resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+// Routes
+
+const authRoutes = require("./routes/authRoutes");
+const oauthRoutes = require("./routes/oauthRoutes");
+
+app.use('/api/auth', authRoutes);
+app.use('/api/oauth', oauthRoutes);
 // Middlewares
 
 // Helmet helps us secure the app by setting HTTP headers

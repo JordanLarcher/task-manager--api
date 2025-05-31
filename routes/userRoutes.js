@@ -4,6 +4,8 @@ const { validationResult } = require("express-validator");
 const { userValidationRules } = require("../middleware/validators/userRules");
 const userController = require("../controllers/userController");
 const winston = require("../util/logger");
+const {authenticateJWT} = require('../middleware/authMiddleware');
+const { authorizeRoles } = require('../middleware/roleMiddleware');
 
 
 /**
@@ -164,7 +166,10 @@ const winston = require("../util/logger");
  *       500:
  *         $ref: '#/components/responses/ServerError'
  */
-router.get("/", userController.getAllUsers);
+router.get("/",
+    authenticateJWT,
+    authorizeRoles('ADMIN'),
+    userController.getAllUsers);
 
 /**
  * @swagger
@@ -300,7 +305,10 @@ router.put("/:id", ...userValidationRules, async (req, res, next) => {
  *       500:
  *         $ref: '#/components/responses/ServerError'
  */
-router.delete("/:id", async(req, res, next) => {
+router.delete("/:id",
+    authenticateJWT,
+    authorizeRoles('ADMIN'),
+    async(req, res, next) => {
 
   try {
     winston.info(`Deleting user with ID: ${req.params.id}`);
