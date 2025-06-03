@@ -9,8 +9,7 @@ exports.authenticateJWT = (req, res, next) => {
 
     const token = authHeader.split(" ")[1];
     try{
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
+        req.user = jwt.verify(token, process.env.JWT_SECRET);
         next();
     }catch (error) {
         res.status(403).json( { message: 'Token is not valid or has expired'});

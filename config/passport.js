@@ -22,7 +22,7 @@ passport.use(
                 googleId: profile.id,
                 email: profile.emails[0].value,
                 name: profile.displayName,
-                role: 'user' // Default role
+                role: 'USER' // Default role
             });
 
             done(null, user);
